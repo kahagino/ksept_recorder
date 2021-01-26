@@ -1,0 +1,81 @@
+# class to manage audio
+
+extends Node
+
+# ui can catch this signal to update itself
+signal track_added
+signal track_removed
+
+var SAVE_PATH = Global.downloadDirPath
+
+var effect
+var recording
+
+var audioCursor:float = 0.0
+
+func _ready():
+	Global.audioManager = self
+	print(AudioServer.get_device_list())
+	
+	var _err = $TrackManager.connect("export_ready", self, "_on_export_ready")
+	
+	var idx = AudioServer.get_bus_index("Record")
+	effect = AudioServer.get_bus_effect(idx, 0)
+	
+
+func record():
+	if effect.is_recording_active():
+		recording = effect.get_recording()
+		effect.set_recording_active(false)
+		$TrackManager.add_stream_to_track(recording)
+		print("stopped recording")
+		# save()
+	else:
+		effect.set_recording_active(true)
+		print("recording...")
+
+func play_pause():
+	if !effect.is_recording_active():
+		if !$TrackManager.isPlaying():
+			$TrackManager.play()
+		else:
+			$TrackManager.stop()
+
+func stop():
+	if effect.is_recording_active():
+		recording = effect.get_recording()
+		effect.set_recording_active(false)
+		print("stopped recording")
+		$TrackManager.add_stream_to_track(recording)
+	$TrackManager.stop()
+
+func add_track():
+	$TrackManager.add_track()
+	emit_signal("track_added")
+
+func remove_track():
+	$TrackManager.remove_track()
+	emit_signal("track_removed")
+
+func saveAudio():
+	#var time = OS.get_time()
+	#var time_return = String(time.hour) +"."+String(time.minute)+"."+String(time.second)
+	var file_path = SAVE_PATH + "exported"# + time_return
+	
+	var err = recording.save_to_wav(file_path)
+	if err != OK:
+		OS.alert('error saving wav file, check Storage permission for the app', 'Error')
+	else:
+		var message = 'file saved successfully at ' + file_path
+		OS.alert(message, 'Export')
+	
+	var display_path = [file_path, ProjectSettings.globalize_path(file_path)]
+	var status_text = "Saved WAV file to: %s\n(%s)" % display_path
+	print(status_text)
+
+func _on_export_ready():
+	print("export ready to be saved")
+	saveAudio()
+
+func _on_ExportButton_pressed():
+	$TrackManager.startExport()

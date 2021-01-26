@@ -1,0 +1,162 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/main.gd" type="Script" id=1]
+[ext_resource path="res://theme/theme_white.tres" type="Theme" id=2]
+[ext_resource path="res://ui_components/editor_button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://nodes/AudioManager.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/tracks_ui.gd" type="Script" id=5]
+
+[node name="main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioManager" parent="." instance=ExtResource( 4 )]
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer/MarginContainer"]
+margin_right = 300.0
+margin_bottom = 60.0
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
+margin_right = 300.0
+margin_bottom = 60.0
+size_flags_vertical = 1
+text = "KSEPT"
+align = 1
+valign = 1
+
+[node name="Editor" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 64.0
+margin_right = 300.0
+margin_bottom = 536.0
+size_flags_vertical = 3
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Editor"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 290.0
+margin_bottom = 462.0
+
+[node name="TracksEditor" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
+margin_right = 280.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 0, 260 )
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor"]
+margin_right = 280.0
+margin_bottom = 260.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
+margin_right = 280.0
+margin_bottom = 124.0
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/MarginContainer"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 280.0
+margin_bottom = 124.0
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
+margin_top = 128.0
+margin_right = 280.0
+margin_bottom = 132.0
+
+[node name="TracksUI" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
+margin_top = 136.0
+margin_right = 280.0
+margin_bottom = 260.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 5 )
+
+[node name="EditorMenu" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
+margin_top = 264.0
+margin_right = 280.0
+margin_bottom = 452.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu"]
+margin_right = 280.0
+margin_bottom = 188.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer"]
+margin_right = 280.0
+margin_bottom = 64.0
+size_flags_vertical = 3
+
+[node name="DeleteButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_bottom = 64.0
+buttonText = "Delete"
+buttonType = 4
+
+[node name="AddButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 142.0
+margin_right = 280.0
+margin_bottom = 64.0
+buttonText = "Add"
+buttonType = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer"]
+margin_top = 68.0
+margin_right = 280.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 0, 120 )
+size_flags_vertical = 3
+
+[node name="PlayPauseButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
+margin_right = 90.0
+margin_bottom = 120.0
+buttonText = "Play"
+
+[node name="StopButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
+margin_left = 94.0
+margin_right = 185.0
+margin_bottom = 120.0
+buttonText = "Stop"
+buttonType = 1
+
+[node name="RecordButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
+margin_left = 189.0
+margin_right = 280.0
+margin_bottom = 120.0
+buttonText = "Record"
+buttonType = 2
+
+[node name="ExportButton" type="Button" parent="VBoxContainer"]
+margin_top = 540.0
+margin_right = 300.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 60 )
+text = "EXPORT"
+[connection signal="pressed" from="VBoxContainer/ExportButton" to="AudioManager" method="_on_ExportButton_pressed"]
