@@ -7,9 +7,8 @@ func _ready():
 	# DEBUG ANDROID
 	var file2Check = File.new()
 	var doFileExists = file2Check.file_exists(Global.downloadDirPath + "exported.wav")
-	file2Check = null
+	file2Check.close()
 	if doFileExists:
 		OS.alert('file exists')
 	else:
 		OS.alert("file doesn't exists")
-
