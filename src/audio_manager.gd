@@ -11,7 +11,7 @@ var SAVE_PATH = Global.downloadDirPath
 var effect
 var recording
 
-var audioCursor:float = 0.0
+var cursor:float = 0.0
 
 func _ready():
 	Global.audioManager = self
@@ -25,19 +25,21 @@ func _ready():
 
 func record():
 	if effect.is_recording_active():
+		# stop recording on current track
 		recording = effect.get_recording()
 		effect.set_recording_active(false)
 		$TrackManager.add_stream_to_track(recording)
 		print("stopped recording")
-		# save()
 	else:
+		# start recording on current track
+		$TrackManager.set_current_t_stamp(cursor)
 		effect.set_recording_active(true)
 		print("recording...")
 
 func play_pause():
 	if !effect.is_recording_active():
-		if !$TrackManager.isPlaying():
-			$TrackManager.play()
+		if !$TrackManager.is_playing():
+			$TrackManager.play_at(cursor)
 		else:
 			$TrackManager.stop()
 
@@ -64,9 +66,9 @@ func saveAudio():
 	
 	var err = recording.save_to_wav(file_path)
 	if err != OK:
-		OS.alert('error saving wav file, check Storage permission for the app', 'Error')
+		OS.alert('Error saving wav file, check Storage permission', 'Error')
 	else:
-		var message = 'file saved successfully at ' + file_path
+		var message = 'File saved successfully in ' + file_path
 		OS.alert(message, 'Export')
 	
 	var display_path = [file_path, ProjectSettings.globalize_path(file_path)]
@@ -78,4 +80,4 @@ func _on_export_ready():
 	saveAudio()
 
 func _on_ExportButton_pressed():
-	$TrackManager.startExport()
+	$TrackManager.start_export()

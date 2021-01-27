@@ -4,17 +4,19 @@ enum MODE {EDIT, EXPORT}
 var mode = MODE.EDIT # by default
 
 var tracks:Array = []
-var focusedTrack:AudioStreamPlayer
+var focused_track:AudioStreamPlayer
 
 var exportedNumber:int = 0
 signal export_ready
 
+const Track = preload("res://nodes/Track.tscn")
+
 func add_track():
-	var track = AudioStreamPlayer.new()
+	var track = Track.instance()
 	add_child(track)
 	track.connect("finished", self, "_on_track_finished")
 	tracks.append(track)
-	print("focusedTrack: ", focusedTrack)
+	print("focusedTrack: ", focused_track)
 	print(tracks)
 	print("number of child: ", get_child_count())
 	print_tree_pretty()
@@ -24,22 +26,29 @@ func remove_track():
 		tracks[tracks.size() -1].queue_free()
 		tracks.pop_back()
 	
-	print("focusedTrack: ", focusedTrack)
+	print("focusedTrack: ", focused_track)
 	print(tracks)
 	print("number of child: ", get_child_count())
 	print_tree_pretty()
 	
 func add_stream_to_track(stream:AudioStream):
-	tracks[tracks.size() -1].stream = stream
+	var last_track = tracks[tracks.size() -1]
+	last_track.set_stream(stream)
+	last_track.update_end_t_stamp()
 
-func play():
+func set_current_t_stamp(cursor:float):
+	var last_track = tracks[tracks.size() -1]
+	last_track.set_start_t_stamp(cursor)
+
+
+func play_at(cursor:float):
 	for track in tracks:
-		track.play()
+		track.play_at(cursor)
 
-func isPlaying():
+func is_playing():
 	# return true if any track is currently playing
 	for track in tracks:
-		if track.playing:
+		if track.is_playing():
 			return true
 	
 	return false
@@ -49,16 +58,16 @@ func stop():
 	for track in tracks:
 		track.stop()
 
-func startExport():
+func start_export():
 	exportedNumber = 0
 	mode = MODE.EXPORT
 	for track in tracks:
 		track.bus = "Export"
 	print("moved each track to bus Export")
 	print("exporting...")
-	play()
+	play_at(0.0) # start playing export from beggining
 
-func _endExport():
+func _end_export():
 	for track in tracks:
 		track.bus = "Master"
 	print("moved each track to bus Master")
@@ -76,5 +85,5 @@ func _on_track_finished():
 
 func _check_export_ready():
 	if exportedNumber == tracks.size():
-		_endExport() # redirect every tracks to the output bus
+		_end_export() # redirect every tracks to the output bus
 		emit_signal("export_ready") # merged streams ready to be saved
