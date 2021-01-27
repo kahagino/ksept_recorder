@@ -14,14 +14,24 @@ var recording
 var cursor:float = 0.0
 
 func _ready():
-	Global.audioManager = self
+	Global.audio_manager = self
 	print(AudioServer.get_device_list())
 	
 	var _err = $TrackManager.connect("export_ready", self, "_on_export_ready")
 	
 	var idx = AudioServer.get_bus_index("Record")
 	effect = AudioServer.get_bus_effect(idx, 0)
+
+
+func _process(delta):
+	pass
 	
+
+func _input(event):
+	if event.is_action_pressed("ui_left"):
+		cursor += 1.0
+	elif event.is_action_pressed("ui_right"):
+		cursor -= 1.0
 
 func record():
 	if effect.is_recording_active():
@@ -40,8 +50,17 @@ func play_pause():
 	if !effect.is_recording_active():
 		if !$TrackManager.is_playing():
 			$TrackManager.play_at(cursor)
+			play_cursor()
 		else:
 			$TrackManager.stop()
+			stop_cursor()
+
+
+func play_cursor()->void:
+	$CursorTimer.start()
+
+func stop_cursor()->void:
+	$CursorTimer.stop()
 
 func stop():
 	if effect.is_recording_active():
@@ -81,3 +100,8 @@ func _on_export_ready():
 
 func _on_ExportButton_pressed():
 	$TrackManager.start_export()
+
+
+func _on_CursorTimer_timeout():
+	cursor += $CursorTimer.wait_time
+	print(cursor)

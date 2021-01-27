@@ -1,5 +1,11 @@
 extends Node
 
-var audioManager = preload("res://src/audio_manager.gd")
+var audio_manager = preload("res://src/audio_manager.gd")
 
 var downloadDirPath = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS) + "/"
+
+func get_tracks()->Array:
+	return audio_manager.get_node("TrackManager").tracks
+
+func get_cursor_pos()->float:
+	return audio_manager.cursor

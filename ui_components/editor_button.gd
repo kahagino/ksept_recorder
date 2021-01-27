@@ -13,14 +13,14 @@ func _ready():
 func _on_Button_pressed():
 	match buttonType:
 		BTYPE.PLAY_PAUSE:
-			Global.audioManager.play_pause()
+			Global.audio_manager.play_pause()
 		BTYPE.STOP:
-			Global.audioManager.stop()
+			Global.audio_manager.stop()
 		BTYPE.RECORD:
-			Global.audioManager.record()
+			Global.audio_manager.record()
 		BTYPE.ADD:
-			Global.audioManager.add_track()
+			Global.audio_manager.add_track()
 		BTYPE.DELETE:
-			Global.audioManager.remove_track()
+			Global.audio_manager.remove_track()
 		_:
 			print("button type ", buttonType, " of button with text: ", buttonText, " doesn't match any known type")

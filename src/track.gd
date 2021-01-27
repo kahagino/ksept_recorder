@@ -15,6 +15,9 @@ func play_at(from_position:float):
 			$AudioStreamPlayer.play(from_position - start_t_stamp)
 			print("playing track ", self, "...")
 
+func stop():
+	$AudioStreamPlayer.stop()
+
 func set_stream(stream:AudioStream):
 	$AudioStreamPlayer.stream = stream
 

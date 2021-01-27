@@ -16,3 +16,7 @@ bus = "Record"
 
 [node name="TrackManager" parent="." instance=ExtResource( 3 )]
 script = ExtResource( 2 )
+
+[node name="CursorTimer" type="Timer" parent="."]
+wait_time = 0.1
+[connection signal="timeout" from="CursorTimer" to="." method="_on_CursorTimer_timeout"]
