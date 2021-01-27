@@ -45,4 +45,4 @@ func set_bus(new_bus:String):
 
 func _on_AudioStream_finished():
 	emit_signal("finished")
-	print("track ", self, " finished...")
+	print("track ", self, " finished")

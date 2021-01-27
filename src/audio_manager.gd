@@ -21,10 +21,6 @@ func _ready():
 	
 	var idx = AudioServer.get_bus_index("Record")
 	effect = AudioServer.get_bus_effect(idx, 0)
-
-
-func _process(delta):
-	pass
 	
 
 func _input(event):
@@ -32,6 +28,9 @@ func _input(event):
 		cursor += 1.0
 	elif event.is_action_pressed("ui_right"):
 		cursor -= 1.0
+
+func get_tracks():
+	return $TrackManager.tracks
 
 func record():
 	if effect.is_recording_active():

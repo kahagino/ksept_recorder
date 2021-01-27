@@ -2,16 +2,16 @@ extends MarginContainer
 
 enum BTYPE {PLAY_PAUSE, STOP, RECORD, ADD, DELETE}
 
-export(String) var buttonText = ""
-export(BTYPE) var buttonType # defined by user in the editor
+export(String) var button_text = ""
+export(BTYPE) var button_type # defined by user in the editor
 
 
 func _ready():
-	get_node("Button").text = buttonText
+	get_node("Button").text = button_text
 
 
 func _on_Button_pressed():
-	match buttonType:
+	match button_type:
 		BTYPE.PLAY_PAUSE:
 			Global.audio_manager.play_pause()
 		BTYPE.STOP:
@@ -23,4 +23,4 @@ func _on_Button_pressed():
 		BTYPE.DELETE:
 			Global.audio_manager.remove_track()
 		_:
-			print("button type ", buttonType, " of button with text: ", buttonText, " doesn't match any known type")
+			print("button type ", button_type, " of button with text: ", button_text, " doesn't match any known type")
