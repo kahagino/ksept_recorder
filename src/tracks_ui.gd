@@ -9,11 +9,16 @@ const v_separation:float = 10.0
 func _ready():
 	Global.audio_manager.connect("track_added", self, "_on_track_added")
 	Global.audio_manager.connect("track_removed", self, "_on_track_removed")
+	Global.audio_manager.connect("cursor_updated", self, "_on_cursor_updated")
 
 func _draw():
 	var tracks = Global.get_tracks()
 	for i in range(tracks.size()):
-		_draw_track(tracks[i].start_t_stamp, tracks[i].end_t_stamp, i)
+		if tracks[i].is_defined():
+			_draw_track(tracks[i].start_t_stamp, tracks[i].end_t_stamp, i)
+		elif tracks[i].is_start_set:
+			# dynamic size when recording:
+			_draw_track(tracks[i].start_t_stamp, Global.get_cursor_pos(), i)
 	
 	_draw_cursor(Global.get_cursor_pos())
 
@@ -33,6 +38,9 @@ func _on_track_removed():
 	if get_child_count() > 0:
 		# remove last child
 		get_child(get_child_count() -1).queue_free()
+
+func _on_cursor_updated():
+	update()
 
 func get_time_to_pos_scale()->float:
 	return rect_size.x / 60.0

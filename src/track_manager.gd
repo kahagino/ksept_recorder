@@ -39,6 +39,7 @@ func add_stream_to_track(stream:AudioStream):
 func set_current_t_stamp(cursor:float):
 	var last_track = tracks[tracks.size() -1]
 	last_track.set_start_t_stamp(cursor)
+	last_track.is_end_set = false
 
 
 func play_at(cursor:float):

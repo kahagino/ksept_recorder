@@ -1,10 +1,8 @@
-# class to manage audio
-
 extends Node
 
-# ui can catch this signal to update itself
 signal track_added
 signal track_removed
+signal cursor_updated
 
 var SAVE_PATH = Global.downloadDirPath
 
@@ -107,7 +105,7 @@ func _on_export_ready():
 
 func _on_ExportButton_pressed():
 	$TrackManager.prepare_export()
-	play_pause() # this is where recording start for export
+	play_pause()
 	if !effect.is_recording_active():
 		effect.set_recording_active(true)
 	else:
@@ -116,3 +114,4 @@ func _on_ExportButton_pressed():
 func _on_CursorTimer_timeout():
 	cursor += $CursorTimer.wait_time
 	$TrackManager.play_at(cursor)
+	emit_signal("cursor_updated")
