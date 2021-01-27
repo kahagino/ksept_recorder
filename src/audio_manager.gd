@@ -49,7 +49,6 @@ func record():
 func play_pause():
 	if !effect.is_recording_active():
 		if !is_playing():
-			$TrackManager.play_at(cursor)
 			play_cursor()
 		else:
 			$TrackManager.stop()
@@ -111,4 +110,4 @@ func _on_ExportButton_pressed():
 
 func _on_CursorTimer_timeout():
 	cursor += $CursorTimer.wait_time
-	print(cursor)
+	$TrackManager.play_at(cursor)

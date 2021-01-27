@@ -62,14 +62,14 @@ func start_export():
 	exportedNumber = 0
 	mode = MODE.EXPORT
 	for track in tracks:
-		track.bus = "Export"
+		track.set_bus("Export")
 	print("moved each track to bus Export")
 	print("exporting...")
 	play_at(0.0) # start playing export from beggining
 
 func _end_export():
 	for track in tracks:
-		track.bus = "Master"
+		track.set_bus("Master")
 	print("moved each track to bus Master")
 
 func _on_track_finished():

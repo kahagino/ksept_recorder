@@ -10,10 +10,11 @@ func _ready():
 	$AudioStreamPlayer.connect("finished", self, "_on_AudioStream_finished")
 
 func play_at(from_position:float):
-	if is_playable:
-		if(from_position >= start_t_stamp && from_position < end_t_stamp):
-			$AudioStreamPlayer.play(from_position - start_t_stamp)
-			print("playing track ", self, "...")
+	if !$AudioStreamPlayer.playing:
+		if is_playable:
+			if(from_position >= start_t_stamp && from_position < end_t_stamp):
+				$AudioStreamPlayer.play(from_position - start_t_stamp)
+				print("playing track ", self, "...")
 
 func stop():
 	$AudioStreamPlayer.stop()
@@ -39,6 +40,8 @@ func update_end_t_stamp():
 func get_length():
 	return $AudioStreamPlayer.stream.get_length()
 
+func set_bus(new_bus:String):
+	$AudioStreamPlayer.bus = new_bus
 
 func _on_AudioStream_finished():
 	emit_signal("finished")
