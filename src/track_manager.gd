@@ -58,19 +58,19 @@ func stop():
 	for track in tracks:
 		track.stop()
 
-func start_export():
+func prepare_export():
 	exportedNumber = 0
 	mode = MODE.EXPORT
 	for track in tracks:
 		track.set_bus("Export")
 	print("moved each track to bus Export")
 	print("exporting...")
-	play_at(0.0) # start playing export from beggining
 
 func _end_export():
 	for track in tracks:
 		track.set_bus("Master")
 	print("moved each track to bus Master")
+	mode = MODE.EDIT
 
 func _on_track_finished():
 	match mode:
@@ -85,5 +85,5 @@ func _on_track_finished():
 
 func _check_export_ready():
 	if exportedNumber == tracks.size():
-		_end_export() # redirect every tracks to the output bus
+		_end_export()
 		emit_signal("export_ready") # merged streams ready to be saved

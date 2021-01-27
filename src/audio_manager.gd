@@ -102,11 +102,17 @@ func saveAudio():
 
 func _on_export_ready():
 	print("export ready to be saved")
+	recording = effect.get_recording()
+	effect.set_recording_active(false)
 	saveAudio()
 
 func _on_ExportButton_pressed():
-	$TrackManager.start_export()
-
+	$TrackManager.prepare_export()
+	play_pause() # this is where recording start for export
+	if !effect.is_recording_active():
+		effect.set_recording_active(true)
+	else:
+		OS.alert("Stop record before export", "Alert")
 
 func _on_CursorTimer_timeout():
 	cursor += $CursorTimer.wait_time
