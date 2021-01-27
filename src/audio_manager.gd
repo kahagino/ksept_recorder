@@ -48,12 +48,18 @@ func record():
 
 func play_pause():
 	if !effect.is_recording_active():
-		if !$TrackManager.is_playing():
+		if !is_playing():
 			$TrackManager.play_at(cursor)
 			play_cursor()
 		else:
 			$TrackManager.stop()
 			stop_cursor()
+
+func is_playing()->bool:
+	if $CursorTimer.is_stopped():
+		return false
+	
+	return true
 
 
 func play_cursor()->void:
@@ -61,6 +67,7 @@ func play_cursor()->void:
 
 func stop_cursor()->void:
 	$CursorTimer.stop()
+	cursor = 0.0
 
 func stop():
 	if effect.is_recording_active():

@@ -34,8 +34,11 @@ func _on_track_removed():
 		# remove last child
 		get_child(get_child_count() -1).queue_free()
 
+func get_time_to_pos_scale()->float:
+	return rect_size.x / 60.0
+
 func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int)->FuncRef:
-	var time_to_pos_scale = rect_size.x / 60.0
+	var time_to_pos_scale = get_time_to_pos_scale()
 	var track_start_pos = time_to_pos_scale * start_t_stamp
 	var track_end_pos = time_to_pos_scale * end_t_stamp
 	var rect_pos = view_pos + Vector2(track_start_pos, i * tracks_thickness +  i * v_separation)
@@ -47,6 +50,8 @@ func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int)->FuncRef:
 		true)
 
 func _draw_cursor(cursor_pos:float)->FuncRef:
+	var time_to_pos_scale = get_time_to_pos_scale()
 	var line_pos_up = view_pos + Vector2(cursor_pos, 0)
+	line_pos_up.x *= time_to_pos_scale
 	var line_pos_down = line_pos_up + Vector2(0, 60)
 	return draw_line(line_pos_up, line_pos_down, Color.black, 1.0)	
