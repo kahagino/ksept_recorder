@@ -1,7 +1,7 @@
 extends MarginContainer
 
 var view_pos:Vector2 = Vector2.ZERO
-var view_offset:Vector2 = Vector2(30.0, 3)
+var view_offset:Vector2 = Vector2(30.0, 20)
 var view_scale:float = 60.0 # the duration that the view represents in seconds
 
 const tracks_thickness:float = 10.0
@@ -46,30 +46,33 @@ func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int, track_color:Colo
 	var time_to_pos_scale = get_time_to_pos_scale()
 	var track_start_pos = time_to_pos_scale * start_t_stamp
 	var track_end_pos = time_to_pos_scale * end_t_stamp
+	var view_offset_pos = view_offset.x * time_to_pos_scale
 	var rect_pos = view_pos + Vector2(
 		track_start_pos,
 		i * tracks_thickness +  (i+1) * v_separation)
 	return draw_rect(
 		Rect2(
-			rect_pos + time_to_pos_scale * view_offset,
+			rect_pos + Vector2(view_offset_pos, view_offset.y),
 			Vector2(track_end_pos - track_start_pos, tracks_thickness)),
 		track_color,
 		true)
 
 func _draw_track_circle(i:int, track_color, cust_offset:Vector2 = Vector2.ZERO)->FuncRef:
-	var rect_pos = get_time_to_pos_scale() * view_offset + view_pos + Vector2(
+	var view_offset_pos = view_offset.x * get_time_to_pos_scale()
+	var rect_pos = Vector2(view_offset_pos, view_offset.y) + view_pos + Vector2(
 		-10,
 		i * tracks_thickness +  (i+1) * v_separation + tracks_thickness/2)
 	return draw_circle(rect_pos, 3.0, track_color)
 
 func _draw_cursor()->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
-	var line_pos_up = view_offset * time_to_pos_scale + Vector2(0, -10)
+	var view_offset_pos = view_offset.x * get_time_to_pos_scale()
+	var line_pos_up = Vector2(view_offset_pos, view_offset.y)
 	var line_pos_down = line_pos_up + Vector2(
 		0,
-		rect_size.y - view_offset.y * get_time_to_pos_scale()
+		rect_size.y - view_offset.y
 		)
-	return draw_line(line_pos_up, line_pos_down, Color.red, 1.0)	
+	return draw_line(line_pos_up + Vector2(0, -20), line_pos_down, Color.red, 1.0)	
 
 func _draw_focused_track(focused_track_index:int)->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
@@ -79,7 +82,7 @@ func _draw_focused_track(focused_track_index:int)->FuncRef:
 	var separation_pos = (focused_track_index+1) * v_separation
 	var rect_pos = Vector2(
 		track_start_pos,
-		thickness_pos + separation_pos + view_offset.y * time_to_pos_scale -2)
+		thickness_pos + separation_pos + view_offset.y -2)
 	return draw_rect(
 		Rect2(
 			rect_pos,
@@ -90,7 +93,7 @@ func _draw_focused_track(focused_track_index:int)->FuncRef:
 func _draw_time_scale()->void:
 	var time_to_pose_scale = get_time_to_pos_scale()
 	var cursor_pos_int = int(Global.get_cursor_pos())
-	
+	var view_offset_pos = view_offset.x * get_time_to_pos_scale()
 	# the lines will draw dynamically but keep a maxium interval size
 	# of view_scale
 	# user has the impression that the number of lines is infinite
@@ -100,28 +103,32 @@ func _draw_time_scale()->void:
 		low_range = 0
 	
 	var line_pos_x = view_pos.x
-	var line_offset = view_offset * time_to_pose_scale 
+	var line_offset = Vector2(view_offset_pos, view_offset.y)
+	# 0.0 cursor start line
 	draw_line(
-			line_offset + Vector2(line_pos_x, rect_size.y - view_offset.y * time_to_pose_scale),
-			line_offset + Vector2(line_pos_x, -15),
+			line_offset + Vector2(line_pos_x, rect_size.y  - view_offset.y),
+			line_offset + Vector2(line_pos_x, -20),
 			Color.black
 			)
 	
 	# 5 secs line
 	for i in range((low_range +4)/5, (top_range+4)/5, 1):
 		line_pos_x = view_pos.x + 5 * i * time_to_pose_scale
-		line_offset = view_offset * time_to_pose_scale
 		draw_line(
-			line_offset + Vector2(line_pos_x, 0),
-			line_offset + Vector2(line_pos_x, -8),
+			line_offset + Vector2(line_pos_x, -6),
+			line_offset + Vector2(line_pos_x, -14),
 			Color.black
 			)
 	# 1 sec lines
 	for i in range(low_range, top_range, 1):
 		line_pos_x = view_pos.x + i * time_to_pose_scale
-		line_offset = view_offset * time_to_pose_scale
 		draw_line(
-			line_offset + Vector2(line_pos_x, -3),
-			line_offset + Vector2(line_pos_x, -5),
+			line_offset + Vector2(line_pos_x, -9),
+			line_offset + Vector2(line_pos_x, -11),
 			Color.black
 			)
+
+
+func _on_TracksUI_resized():
+	# update the view when user resize the window at runtime
+	_on_cursor_updated()

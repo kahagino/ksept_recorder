@@ -184,4 +184,5 @@ margin_bottom = 600.0
 rect_min_size = Vector2( 0, 60 )
 custom_styles/normal = SubResource( 2 )
 text = "EXPORT"
+[connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_resized"]
 [connection signal="pressed" from="VBoxContainer/ExportButton" to="AudioManager" method="_on_ExportButton_pressed"]
