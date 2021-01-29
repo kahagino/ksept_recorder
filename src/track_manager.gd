@@ -11,6 +11,9 @@ signal export_ready
 
 const Track = preload("res://nodes/Track.tscn")
 
+func _ready():
+	add_track()
+
 func add_track():
 	var track = Track.instance()
 	add_child(track)
@@ -23,7 +26,7 @@ func add_track():
 	print_tree_pretty()
 
 func remove_track():
-	if get_child_count() > 0:
+	if get_child_count() > 1: # we need always at least one track
 		tracks[tracks.size() -1].queue_free()
 		tracks.pop_back()
 		focused_track_index = tracks.size() -1 # focus to last available track
