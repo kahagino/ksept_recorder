@@ -7,7 +7,19 @@ var end_t_stamp:float
 var is_start_set:bool = false
 var is_end_set = false
 
+var track_colors:Array = [
+	"#ff6b81",
+	"#5352ed",
+	"#ff6348",
+	"#1e90ff",
+	"#7bed9f",
+	"#eccc68"
+]
+
+var color:Color
+
 func _ready()->void:
+	color = track_colors[int(rand_range(0, track_colors.size()))]
 	$AudioStreamPlayer.connect("finished", self, "_on_AudioStream_finished")
 
 func play_at(from_position:float)->void:

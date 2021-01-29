@@ -16,12 +16,13 @@ func _draw()->void:
 	
 	var tracks = Global.get_tracks()
 	for i in range(tracks.size()):
-		_draw_track_circle(i) # to indicate that a track is available
+		var track_color = tracks[i].color
+		_draw_track_circle(i, track_color) # to indicate that a track is available
 		if tracks[i].is_defined():
-			_draw_track(tracks[i].start_t_stamp, tracks[i].end_t_stamp, i)
+			_draw_track(tracks[i].start_t_stamp, tracks[i].end_t_stamp, i, track_color)
 		elif tracks[i].is_start_set:
 			# dynamic size when recording:
-			_draw_track(tracks[i].start_t_stamp, Global.get_cursor_pos(), i)
+			_draw_track(tracks[i].start_t_stamp, Global.get_cursor_pos(), i, track_color)
 	
 	_draw_time_scale()
 	
@@ -41,7 +42,7 @@ func _on_cursor_updated()->void:
 func get_time_to_pos_scale()->float:
 	return rect_size.x / 60.0
 
-func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int)->FuncRef:
+func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int, track_color:Color)->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
 	var track_start_pos = time_to_pos_scale * start_t_stamp
 	var track_end_pos = time_to_pos_scale * end_t_stamp
@@ -52,14 +53,14 @@ func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int)->FuncRef:
 		Rect2(
 			rect_pos + time_to_pos_scale * view_offset,
 			Vector2(track_end_pos - track_start_pos, tracks_thickness)),
-		Color.aquamarine,
+		track_color,
 		true)
 
-func _draw_track_circle(i:int, cust_offset:Vector2 = Vector2.ZERO)->FuncRef:
+func _draw_track_circle(i:int, track_color, cust_offset:Vector2 = Vector2.ZERO)->FuncRef:
 	var rect_pos = get_time_to_pos_scale() * view_offset + view_pos + Vector2(
 		-10,
 		i * tracks_thickness +  (i+1) * v_separation + tracks_thickness/2)
-	return draw_circle(rect_pos, 3.0, Color("#2f3542"))
+	return draw_circle(rect_pos, 3.0, track_color)
 
 func _draw_cursor()->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
