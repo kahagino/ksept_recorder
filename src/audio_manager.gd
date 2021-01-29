@@ -32,15 +32,17 @@ func _input(event):
 
 func record():
 	if effect.is_recording_active():
+		stop()
 		# stop recording on current track
-		recording = effect.get_recording()
-		effect.set_recording_active(false)
-		$TrackManager.add_stream_to_track(recording)
-		print("stopped recording")
+#		recording = effect.get_recording()
+#		effect.set_recording_active(false)
+#		$TrackManager.add_stream_to_track(recording)
+#		play_pause()
 	else:
 		# start recording on current track
 		$TrackManager.set_current_t_stamp(cursor)
 		effect.set_recording_active(true)
+		play_cursor()
 		print("recording...")
 
 func play_pause():
@@ -50,6 +52,18 @@ func play_pause():
 		else:
 			$TrackManager.stop()
 			stop_cursor()
+
+func stop():
+	if effect.is_recording_active():
+		recording = effect.get_recording()
+		effect.set_recording_active(false)
+		print("stopped recording")
+		$TrackManager.add_stream_to_track(recording)
+		play_pause()
+	else:
+		reset_cursor()
+	
+	$TrackManager.stop()
 
 func is_playing()->bool:
 	if $CursorTimer.is_stopped():
@@ -66,16 +80,7 @@ func stop_cursor()->void:
 
 func reset_cursor()->void:
 	cursor = 0.0
-
-func stop():
-	if effect.is_recording_active():
-		recording = effect.get_recording()
-		effect.set_recording_active(false)
-		print("stopped recording")
-		$TrackManager.add_stream_to_track(recording)
-	
-	$TrackManager.stop()
-	reset_cursor()
+	stop_cursor()
 
 func add_track():
 	$TrackManager.add_track()
