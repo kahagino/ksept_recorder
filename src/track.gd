@@ -42,6 +42,7 @@ func is_playing()->bool:
 	return false
 
 func is_defined()->bool:
+	# return true if a record exists in this track
 	if is_start_set && is_end_set:
 		return true
 	

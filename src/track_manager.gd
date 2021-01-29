@@ -101,6 +101,14 @@ func _on_track_finished()->void:
 			print("TrackManager MODE: ", mode, " doesn't match any known MODE")
 
 func _check_export_ready()->void:
-	if exportedNumber == tracks.size():
+	if exportedNumber >= _get_number_of_defined_tracks():
 		_end_export()
 		emit_signal("export_ready") # merged streams ready to be saved
+
+func _get_number_of_defined_tracks()->int:
+	var counter = 0
+	for track in tracks:
+		if track.is_defined():
+			counter += 1
+	
+	return counter

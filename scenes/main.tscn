@@ -92,34 +92,35 @@ margin_bottom = 260.0
 
 [node name="K7Panel" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
 margin_right = 280.0
-margin_bottom = 124.0
+margin_bottom = 128.0
 size_flags_vertical = 3
 script = ExtResource( 7 )
 
 [node name="Panel" type="Panel" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
 margin_right = 280.0
-margin_bottom = 124.0
+margin_bottom = 128.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
 margin_left = 109.0
-margin_top = 104.0
+margin_top = 108.0
 margin_right = 171.0
-margin_bottom = 124.0
+margin_bottom = 128.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "00:00:00"
 
 [node name="TracksUI" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
-margin_top = 128.0
+margin_top = 132.0
 margin_right = 280.0
-margin_bottom = 252.0
+margin_bottom = 260.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
+visible = false
 margin_top = 256.0
 margin_right = 280.0
 margin_bottom = 260.0
