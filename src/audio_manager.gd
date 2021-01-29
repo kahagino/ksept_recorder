@@ -29,6 +29,8 @@ func _input(event)->void:
 		emit_signal("cursor_updated")
 	elif event.is_action_pressed("ui_right"):
 		cursor -= 1.0
+		if cursor < 0.0:
+			reset_cursor()
 		emit_signal("cursor_updated")
 	elif event.is_action_pressed("ui_up"):
 		track_manager.focus_next()

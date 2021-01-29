@@ -1,7 +1,7 @@
 extends MarginContainer
 
 var view_pos:Vector2 = Vector2.ZERO
-var view_offset:Vector2 = Vector2(30.0, 0)
+var view_offset:Vector2 = Vector2(30.0, 5)
 var view_scale:float = 60.0 # the duration that the view represents in seconds
 
 const tracks_thickness:float = 20.0
@@ -31,7 +31,15 @@ func _on_tracks_updated()->void:
 	update()
 
 func _on_cursor_updated()->void:
-	_adapt_view_to_cursor(Global.get_cursor_pos())
+	var cursor_pos:float = Global.get_cursor_pos()
+	_adapt_view_to_cursor(cursor_pos)
+	var mins:int = int(cursor_pos / 60.0)
+	var secs:int = int(int(cursor_pos) % 60)
+	var millis:int = int((cursor_pos - int(cursor_pos)) * 10)
+	var mins_str = "%02d" % mins
+	var secs_str = "%02d" % secs
+	var millis_str = "%0-2d" % millis
+	$Label.text = mins_str + ":" + secs_str + ":" + millis_str
 	update()
 
 func get_time_to_pos_scale()->float:

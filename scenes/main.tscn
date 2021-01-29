@@ -100,6 +100,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
 
+[node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI"]
+margin_left = 109.0
+margin_right = 171.0
+margin_bottom = 20.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "00:00:00"
+
 [node name="EditorMenu" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
 margin_top = 264.0
 margin_right = 280.0
