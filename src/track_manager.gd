@@ -27,24 +27,32 @@ func add_track():
 
 func remove_track():
 	if get_child_count() > 1: # we need always at least one track
-		tracks[tracks.size() -1].queue_free()
-		tracks.pop_back()
-		focused_track_index = tracks.size() -1 # focus to last available track
+		tracks[focused_track_index].queue_free()
+		tracks.remove(focused_track_index)
+		focused_track_index -= 1 # focus to upper track
 	
 	print("focusedTrack id: ", focused_track_index)
 	print(tracks)
 	print("number of child: ", get_child_count())
 	print_tree_pretty()
+
+func focus_next():
+	if focused_track_index < tracks.size() -1:
+		focused_track_index += 1
 	
+func focus_previous():
+	if focused_track_index > 0:
+		focused_track_index -= 1
+
 func add_stream_to_track(stream:AudioStream):
-	var last_track = tracks[tracks.size() -1]
-	last_track.set_stream(stream)
-	last_track.update_end_t_stamp()
+	var focused_track = tracks[focused_track_index]
+	focused_track.set_stream(stream)
+	focused_track.update_end_t_stamp()
 
 func set_current_t_stamp(cursor:float):
-	var last_track = tracks[tracks.size() -1]
-	last_track.set_start_t_stamp(cursor)
-	last_track.is_end_set = false
+	var focused_track = tracks[focused_track_index]
+	focused_track.set_start_t_stamp(cursor)
+	focused_track.is_end_set = false
 
 
 func play_at(cursor:float):

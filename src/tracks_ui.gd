@@ -8,8 +8,7 @@ const tracks_thickness:float = 20.0
 const v_separation:float = 10.0
 
 func _ready():
-	Global.audio_manager.connect("track_added", self, "_on_track_added")
-	Global.audio_manager.connect("track_removed", self, "_on_track_removed")
+	Global.audio_manager.connect("tracks_updated", self, "_on_tracks_updated")
 	Global.audio_manager.connect("cursor_updated", self, "_on_cursor_updated")
 
 func _draw():
@@ -29,13 +28,7 @@ func _draw():
 func _adapt_view_to_cursor(cursor_pos:float):
 	view_pos.x = -cursor_pos * get_time_to_pos_scale()
 
-func _on_track_added():
-	update()
-
-func _on_track_removed():
-	if get_child_count() > 0:
-		# remove last child
-		get_child(get_child_count() -1).queue_free()
+func _on_tracks_updated():
 	update()
 
 func _on_cursor_updated():

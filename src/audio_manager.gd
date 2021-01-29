@@ -1,7 +1,6 @@
 extends Node
 
-signal track_added
-signal track_removed
+signal tracks_updated
 signal cursor_updated
 
 var SAVE_PATH = Global.downloadDirPath
@@ -31,15 +30,16 @@ func _input(event):
 	elif event.is_action_pressed("ui_right"):
 		cursor -= 1.0
 		emit_signal("cursor_updated")
+	elif event.is_action_pressed("ui_up"):
+		track_manager.focus_next()
+		emit_signal("tracks_updated")
+	elif event.is_action_pressed("ui_down"):
+		track_manager.focus_previous()
+		emit_signal("tracks_updated")
 
 func record():
 	if effect.is_recording_active():
 		stop()
-		# stop recording on current track
-#		recording = effect.get_recording()
-#		effect.set_recording_active(false)
-#		$TrackManager.add_stream_to_track(recording)
-#		play_pause()
 	else:
 		# start recording on current track
 		$TrackManager.set_current_t_stamp(cursor)
@@ -88,11 +88,11 @@ func reset_cursor()->void:
 
 func add_track():
 	$TrackManager.add_track()
-	emit_signal("track_added")
+	emit_signal("tracks_updated")
 
 func remove_track():
 	$TrackManager.remove_track()
-	emit_signal("track_removed")
+	emit_signal("tracks_updated")
 
 func saveAudio():
 	#var time = OS.get_time()
