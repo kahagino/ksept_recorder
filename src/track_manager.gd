@@ -29,7 +29,8 @@ func remove_track()->void:
 	if get_child_count() > 1: # we need always at least one track
 		tracks[focused_track_index].queue_free()
 		tracks.remove(focused_track_index)
-		focused_track_index -= 1 # focus to upper track
+		if focused_track_index > 0:
+			focused_track_index -= 1 # focus to upper track
 	
 	print("focusedTrack id: ", focused_track_index)
 	print(tracks)
