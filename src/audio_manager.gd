@@ -109,6 +109,7 @@ func save_audio()->void:
 	var display_path = [file_path, ProjectSettings.globalize_path(file_path)]
 	var status_text = "Saved WAV file to: %s\n(%s)" % display_path
 	print(status_text)
+	stop()
 
 func _on_export_ready()->void:
 	print("export ready to be saved")
@@ -117,6 +118,8 @@ func _on_export_ready()->void:
 	save_audio()
 
 func _on_ExportButton_pressed()->void:
+	stop()
+	stop() # call to times to ensure cursor is reset to beggining
 	$TrackManager.prepare_export()
 	play_pause()
 	if !effect.is_recording_active():
