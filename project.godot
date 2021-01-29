@@ -30,7 +30,7 @@ Global="*res://src/global.gd"
 
 [debug]
 
-settings/fps/force_fps=30
+settings/fps/force_fps=15
 
 [display]
 
@@ -51,7 +51,7 @@ file_logging/enable_file_logging.pc=false
 
 [physics]
 
-common/physics_fps=30
+common/physics_fps=15
 
 [rendering]
 
