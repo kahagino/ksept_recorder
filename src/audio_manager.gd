@@ -89,12 +89,14 @@ func reset_cursor()->void:
 	stop_cursor()
 
 func add_track()->void:
-	$TrackManager.add_track()
-	emit_signal("tracks_updated")
+	if !effect.is_recording_active():
+		$TrackManager.add_track()
+		emit_signal("tracks_updated")
 
 func remove_track()->void:
-	$TrackManager.remove_track()
-	emit_signal("tracks_updated")
+	if !effect.is_recording_active():
+		$TrackManager.remove_track()
+		emit_signal("tracks_updated")
 
 func save_audio()->void:
 	#var time = OS.get_time()

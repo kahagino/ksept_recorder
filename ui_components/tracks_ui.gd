@@ -72,7 +72,7 @@ func _draw_cursor()->FuncRef:
 		0,
 		rect_size.y - view_offset.y
 		)
-	return draw_line(line_pos_up + Vector2(0, -20), line_pos_down, Color.red, 1.0)	
+	return draw_line(line_pos_up + Vector2(0, -20), line_pos_down, Color.red, 2.0)	
 
 func _draw_focused_track(focused_track_index:int)->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
@@ -109,7 +109,8 @@ func _draw_time_scale()->void:
 	draw_line(
 			line_offset + Vector2(line_pos_x, rect_size.y  - view_offset.y),
 			line_offset + Vector2(line_pos_x, -20),
-			Color.black
+			Color.black,
+			2.0
 			)
 	
 	# 5 secs line
@@ -120,7 +121,8 @@ func _draw_time_scale()->void:
 		draw_line(
 			line_offset + Vector2(line_pos_x, -6),
 			line_offset + Vector2(line_pos_x, -14),
-			Color(0, 0, 0, alpha)
+			Color(0, 0, 0, alpha),
+			2.0
 			)
 	# 1 sec lines
 	for i in range(low_range, top_range, 1):
@@ -130,7 +132,8 @@ func _draw_time_scale()->void:
 		draw_line(
 			line_offset + Vector2(line_pos_x, -9),
 			line_offset + Vector2(line_pos_x, -11),
-			Color(0, 0, 0, alpha)
+			Color(0, 0, 0, alpha),
+			2.0
 			)
 
 
