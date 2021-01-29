@@ -27,9 +27,9 @@ func _draw():
 func _input(event):
 	# debug inputs
 	if event.is_action_pressed("ui_up"):
-		view_pos.x += 1.0
+		view_pos.x += 1.0 * get_time_to_pos_scale()
 	elif event.is_action_pressed("ui_down"):
-		view_pos.x -= 1.0
+		view_pos.x -= 1.0 * get_time_to_pos_scale()
 	
 	update()
 
@@ -63,14 +63,13 @@ func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int)->FuncRef:
 
 func _draw_cursor(cursor_pos:float)->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
-	var line_pos_up = view_pos + Vector2(cursor_pos, 0)
-	line_pos_up.x *= time_to_pos_scale
+	var line_pos_up = view_pos + Vector2(cursor_pos * time_to_pos_scale, 0)
 	var line_pos_down = line_pos_up + Vector2(0, 60)
 	return draw_line(line_pos_up, line_pos_down, Color.black, 1.0)	
 
 func _draw_focused_track(focused_track_index:int)->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
-	var track_start_pos = time_to_pos_scale * 0
+	var track_start_pos = 0.0
 	var track_end_pos = time_to_pos_scale * view_scale
 	var thickness_pos = focused_track_index * tracks_thickness
 	var separation_pos = focused_track_index * v_separation
