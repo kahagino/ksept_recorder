@@ -27,8 +27,10 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_left"):
 		cursor += 1.0
+		emit_signal("cursor_updated")
 	elif event.is_action_pressed("ui_right"):
 		cursor -= 1.0
+		emit_signal("cursor_updated")
 
 func record():
 	if effect.is_recording_active():
@@ -74,9 +76,11 @@ func is_playing()->bool:
 
 func play_cursor()->void:
 	$CursorTimer.start()
+	emit_signal("cursor_updated")
 
 func stop_cursor()->void:
 	$CursorTimer.stop()
+	emit_signal("cursor_updated")
 
 func reset_cursor()->void:
 	cursor = 0.0
