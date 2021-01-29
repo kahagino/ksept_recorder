@@ -91,15 +91,16 @@ func _draw_focused_track(focused_track_index:int)->FuncRef:
 		true)
 		
 func _draw_time_scale()->void:
+	var width = 0.3
 	var time_to_pose_scale = get_time_to_pos_scale()
 	var cursor_pos_int = int(Global.get_cursor_pos())
 	var view_offset_pos = view_offset.x * get_time_to_pos_scale()
 	# the lines will draw dynamically but keep a maxium interval size
 	# of view_scale
 	# user has the impression that the number of lines is infinite
-	var low_range = -int(view_scale/4) + (cursor_pos_int)
-	var top_range = int(view_scale/4) + cursor_pos_int
-	if cursor_pos_int <= view_scale/4:
+	var low_range = -int(view_scale * width) + (cursor_pos_int)
+	var top_range = int(view_scale * width) + cursor_pos_int
+	if cursor_pos_int <= view_scale * width:
 		low_range = 0
 	
 	var line_pos_x = view_pos.x
@@ -114,18 +115,22 @@ func _draw_time_scale()->void:
 	# 5 secs line
 	for i in range((low_range +4)/5, (top_range+4)/5, 1):
 		line_pos_x = view_pos.x + 5 * i * time_to_pose_scale
+		var n = Global.map(i, (low_range +4)/5, (top_range+4)/5, 0, 1)
+		var alpha = exp(-20*pow(n - 0.5, 2)) # see normal distribution
 		draw_line(
 			line_offset + Vector2(line_pos_x, -6),
 			line_offset + Vector2(line_pos_x, -14),
-			Color.black
+			Color(0, 0, 0, alpha)
 			)
 	# 1 sec lines
 	for i in range(low_range, top_range, 1):
 		line_pos_x = view_pos.x + i * time_to_pose_scale
+		var n = Global.map(i, low_range, top_range, 0, 1)
+		var alpha = exp(-20*pow(n - 0.5, 2))
 		draw_line(
 			line_offset + Vector2(line_pos_x, -9),
 			line_offset + Vector2(line_pos_x, -11),
-			Color.black
+			Color(0, 0, 0, alpha)
 			)
 
 

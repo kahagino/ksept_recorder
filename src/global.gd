@@ -24,3 +24,6 @@ func get_cursor_pos()->float:
 
 func get_focused_track_index()->int:
 	return audio_manager.track_manager.focused_track_index
+
+func map(value:float, istart:float, istop:float, ostart:float, ostop:float):
+	return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))

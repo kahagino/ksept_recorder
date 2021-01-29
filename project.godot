@@ -60,4 +60,5 @@ quality/intended_usage/framebuffer_allocation.mobile=1
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 quality/shadows/filter_mode=0
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
