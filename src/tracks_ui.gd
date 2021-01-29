@@ -7,11 +7,11 @@ var view_scale:float = 60.0 # the duration that the view represents in seconds
 const tracks_thickness:float = 20.0
 const v_separation:float = 10.0
 
-func _ready():
+func _ready()->void:
 	Global.audio_manager.connect("tracks_updated", self, "_on_tracks_updated")
 	Global.audio_manager.connect("cursor_updated", self, "_on_cursor_updated")
 
-func _draw():
+func _draw()->void:
 	var tracks = Global.get_tracks()
 	for i in range(tracks.size()):
 		if tracks[i].is_defined():
@@ -22,16 +22,15 @@ func _draw():
 	
 	_draw_focused_track(Global.get_focused_track_index())
 	
-	_draw_cursor(Global.get_cursor_pos())
-	print("draw")
+	_draw_cursor()
 
-func _adapt_view_to_cursor(cursor_pos:float):
+func _adapt_view_to_cursor(cursor_pos:float)->void:
 	view_pos.x = -cursor_pos * get_time_to_pos_scale()
 
-func _on_tracks_updated():
+func _on_tracks_updated()->void:
 	update()
 
-func _on_cursor_updated():
+func _on_cursor_updated()->void:
 	_adapt_view_to_cursor(Global.get_cursor_pos())
 	update()
 
@@ -52,9 +51,7 @@ func _draw_track(start_t_stamp:float, end_t_stamp:float, i:int)->FuncRef:
 		Color.aquamarine,
 		true)
 
-func _draw_cursor(cursor_pos:float)->FuncRef:
-	#cursor_pos = Global.map(cursor_pos, 0, cursor_pos, 0, 60)
-	#var pos_percent = (cursor_pos / 60.0)-int(cursor_pos / 60.0)
+func _draw_cursor()->FuncRef:
 	var time_to_pos_scale = get_time_to_pos_scale()
 	var line_pos_up = view_offset * time_to_pos_scale
 	var line_pos_down = line_pos_up + Vector2(0, 60)

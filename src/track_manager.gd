@@ -11,10 +11,10 @@ signal export_ready
 
 const Track = preload("res://nodes/Track.tscn")
 
-func _ready():
+func _ready()->void:
 	add_track()
 
-func add_track():
+func add_track()->void:
 	var track = Track.instance()
 	add_child(track)
 	track.connect("finished", self, "_on_track_finished")
@@ -25,7 +25,7 @@ func add_track():
 	print("number of child: ", get_child_count())
 	print_tree_pretty()
 
-func remove_track():
+func remove_track()->void:
 	if get_child_count() > 1: # we need always at least one track
 		tracks[focused_track_index].queue_free()
 		tracks.remove(focused_track_index)
@@ -36,30 +36,30 @@ func remove_track():
 	print("number of child: ", get_child_count())
 	print_tree_pretty()
 
-func focus_next():
+func focus_next()->void:
 	if focused_track_index < tracks.size() -1:
 		focused_track_index += 1
 	
-func focus_previous():
+func focus_previous()->void:
 	if focused_track_index > 0:
 		focused_track_index -= 1
 
-func add_stream_to_track(stream:AudioStream):
+func add_stream_to_track(stream:AudioStream)->void:
 	var focused_track = tracks[focused_track_index]
 	focused_track.set_stream(stream)
 	focused_track.update_end_t_stamp()
 
-func set_current_t_stamp(cursor:float):
+func set_current_t_stamp(cursor:float)->void:
 	var focused_track = tracks[focused_track_index]
 	focused_track.set_start_t_stamp(cursor)
 	focused_track.is_end_set = false
 
 
-func play_at(cursor:float):
+func play_at(cursor:float)->void:
 	for track in tracks:
 		track.play_at(cursor)
 
-func is_playing():
+func is_playing()->bool:
 	# return true if any track is currently playing
 	for track in tracks:
 		if track.is_playing():
@@ -68,11 +68,11 @@ func is_playing():
 	return false
 		
 
-func stop():	
+func stop()->void:
 	for track in tracks:
 		track.stop()
 
-func prepare_export():
+func prepare_export()->void:
 	exportedNumber = 0
 	mode = MODE.EXPORT
 	for track in tracks:
@@ -80,13 +80,13 @@ func prepare_export():
 	print("moved each track to bus Export")
 	print("exporting...")
 
-func _end_export():
+func _end_export()->void:
 	for track in tracks:
 		track.set_bus("Master")
 	print("moved each track to bus Master")
 	mode = MODE.EDIT
 
-func _on_track_finished():
+func _on_track_finished()->void:
 	match mode:
 		MODE.EXPORT:
 			exportedNumber += 1
@@ -97,7 +97,7 @@ func _on_track_finished():
 		_:
 			print("TrackManager MODE: ", mode, " doesn't match any known MODE")
 
-func _check_export_ready():
+func _check_export_ready()->void:
 	if exportedNumber == tracks.size():
 		_end_export()
 		emit_signal("export_ready") # merged streams ready to be saved

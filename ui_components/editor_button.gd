@@ -2,15 +2,15 @@ extends MarginContainer
 
 enum BTYPE {PLAY_PAUSE, STOP, RECORD, ADD, DELETE}
 
-export(String) var button_text = ""
+export(String) var button_text:String = ""
 export(BTYPE) var button_type # defined by user in the editor
 
 
-func _ready():
+func _ready()->void:
 	get_node("Button").text = button_text
 
 
-func _on_Button_pressed():
+func _on_Button_pressed()->void:
 	match button_type:
 		BTYPE.PLAY_PAUSE:
 			Global.audio_manager.play_pause()

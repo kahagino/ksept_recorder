@@ -1,6 +1,6 @@
 extends Control
 
-func _ready():
+func _ready()->void:
 	var err = OS.request_permissions() # for READ/WRITE to external storage
 	OS.alert("OS.request_permissions() returned " + str(err))
 	

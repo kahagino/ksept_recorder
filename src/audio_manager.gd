@@ -12,7 +12,7 @@ var recording:AudioStreamSample
 
 var cursor:float = 0.0
 
-func _ready():
+func _ready()->void:
 	Global.audio_manager = self
 	print(AudioServer.get_device_list())
 	
@@ -23,7 +23,7 @@ func _ready():
 	effect = AudioServer.get_bus_effect(idx, 0)
 	
 
-func _input(event):
+func _input(event)->void:
 	if event.is_action_pressed("ui_left"):
 		cursor += 1.0
 		emit_signal("cursor_updated")
@@ -37,7 +37,7 @@ func _input(event):
 		track_manager.focus_previous()
 		emit_signal("tracks_updated")
 
-func record():
+func record()->void:
 	if effect.is_recording_active():
 		stop()
 	else:
@@ -47,7 +47,7 @@ func record():
 		play_cursor()
 		print("recording...")
 
-func play_pause():
+func play_pause()->void:
 	if !effect.is_recording_active():
 		if !is_playing():
 			play_cursor()
@@ -55,7 +55,7 @@ func play_pause():
 			$TrackManager.stop()
 			stop_cursor()
 
-func stop():
+func stop()->void:
 	if effect.is_recording_active():
 		recording = effect.get_recording()
 		effect.set_recording_active(false)
@@ -86,15 +86,15 @@ func reset_cursor()->void:
 	cursor = 0.0
 	stop_cursor()
 
-func add_track():
+func add_track()->void:
 	$TrackManager.add_track()
 	emit_signal("tracks_updated")
 
-func remove_track():
+func remove_track()->void:
 	$TrackManager.remove_track()
 	emit_signal("tracks_updated")
 
-func saveAudio():
+func save_audio()->void:
 	#var time = OS.get_time()
 	#var time_return = String(time.hour) +"."+String(time.minute)+"."+String(time.second)
 	var file_path = SAVE_PATH + "exported"# + time_return
@@ -110,13 +110,13 @@ func saveAudio():
 	var status_text = "Saved WAV file to: %s\n(%s)" % display_path
 	print(status_text)
 
-func _on_export_ready():
+func _on_export_ready()->void:
 	print("export ready to be saved")
 	recording = effect.get_recording()
 	effect.set_recording_active(false)
-	saveAudio()
+	save_audio()
 
-func _on_ExportButton_pressed():
+func _on_ExportButton_pressed()->void:
 	$TrackManager.prepare_export()
 	play_pause()
 	if !effect.is_recording_active():
@@ -124,7 +124,7 @@ func _on_ExportButton_pressed():
 	else:
 		OS.alert("Stop record before export", "Alert")
 
-func _on_CursorTimer_timeout():
+func _on_CursorTimer_timeout()->void:
 	cursor += $CursorTimer.wait_time
 	$TrackManager.play_at(cursor)
 	emit_signal("cursor_updated")
