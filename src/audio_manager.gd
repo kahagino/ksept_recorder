@@ -6,8 +6,10 @@ signal cursor_updated
 
 var SAVE_PATH = Global.downloadDirPath
 
-var effect
-var recording
+var track_manager:Node
+
+var effect:AudioEffect
+var recording:AudioStreamSample
 
 var cursor:float = 0.0
 
@@ -15,6 +17,7 @@ func _ready():
 	Global.audio_manager = self
 	print(AudioServer.get_device_list())
 	
+	track_manager = $TrackManager
 	var _err = $TrackManager.connect("export_ready", self, "_on_export_ready")
 	
 	var idx = AudioServer.get_bus_index("Record")
@@ -26,9 +29,6 @@ func _input(event):
 		cursor += 1.0
 	elif event.is_action_pressed("ui_right"):
 		cursor -= 1.0
-
-func get_tracks():
-	return $TrackManager.tracks
 
 func record():
 	if effect.is_recording_active():
@@ -63,6 +63,8 @@ func play_cursor()->void:
 
 func stop_cursor()->void:
 	$CursorTimer.stop()
+
+func reset_cursor()->void:
 	cursor = 0.0
 
 func stop():
@@ -71,7 +73,9 @@ func stop():
 		effect.set_recording_active(false)
 		print("stopped recording")
 		$TrackManager.add_stream_to_track(recording)
+	
 	$TrackManager.stop()
+	reset_cursor()
 
 func add_track():
 	$TrackManager.add_track()
