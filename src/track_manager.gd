@@ -4,6 +4,7 @@ enum MODE {EDIT, EXPORT}
 var mode = MODE.EDIT # by default
 
 var tracks:Array = []
+const MAX_TRACKS_SIZE = 6
 var focused_track_index:int
 
 var exportedNumber:int = 0
@@ -15,15 +16,16 @@ func _ready()->void:
 	add_track()
 
 func add_track()->void:
-	var track = Track.instance()
-	add_child(track)
-	track.connect("finished", self, "_on_track_finished")
-	tracks.append(track)
-	focused_track_index = tracks.size() -1 # focus to last added track
-	print("focusedTrack id: ", focused_track_index)
-	print(tracks)
-	print("number of child: ", get_child_count())
-	print_tree_pretty()
+	if tracks.size() < MAX_TRACKS_SIZE:
+		var track = Track.instance()
+		add_child(track)
+		track.connect("finished", self, "_on_track_finished")
+		tracks.append(track)
+		focused_track_index = tracks.size() -1 # focus to last added track
+		print("focusedTrack id: ", focused_track_index)
+		print(tracks)
+		print("number of child: ", get_child_count())
+		print_tree_pretty()
 
 func remove_track()->void:
 	if get_child_count() > 1: # we need always at least one track
