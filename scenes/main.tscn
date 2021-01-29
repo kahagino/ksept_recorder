@@ -1,10 +1,23 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/main.gd" type="Script" id=1]
-[ext_resource path="res://theme/theme_white.tres" type="Theme" id=2]
+[ext_resource path="res://theme/theme_bright.tres" type="Theme" id=2]
 [ext_resource path="res://ui_components/editor_button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://nodes/AudioManager.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/tracks_ui.gd" type="Script" id=5]
+[ext_resource path="res://ui_components/tracks_ui.gd" type="Script" id=5]
+[ext_resource path="res://ui_components/K7Panel.gd" type="Script" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0627451, 0.0627451, 0.0627451, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 1, 1, 1 )
+shadow_color = Color( 0, 0, 0, 0.192157 )
+shadow_size = 7
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -77,36 +90,39 @@ size_flags_vertical = 3
 margin_right = 280.0
 margin_bottom = 260.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
+[node name="K7Panel" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
 margin_right = 280.0
 margin_bottom = 124.0
 size_flags_vertical = 3
+script = ExtResource( 7 )
 
-[node name="Panel" type="Panel" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/MarginContainer"]
-modulate = Color( 0, 0, 0, 1 )
+[node name="Panel" type="Panel" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
 margin_right = 280.0
 margin_bottom = 124.0
+custom_styles/panel = SubResource( 1 )
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
-margin_top = 128.0
-margin_right = 280.0
-margin_bottom = 132.0
+[node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
+margin_left = 109.0
+margin_top = 104.0
+margin_right = 171.0
+margin_bottom = 124.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "00:00:00"
 
 [node name="TracksUI" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
-margin_top = 136.0
+margin_top = 128.0
 margin_right = 280.0
-margin_bottom = 260.0
+margin_bottom = 252.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
 
-[node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI"]
-margin_left = 109.0
-margin_right = 171.0
-margin_bottom = 20.0
-size_flags_horizontal = 4
-size_flags_vertical = 0
-text = "00:00:00"
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
+margin_top = 256.0
+margin_right = 280.0
+margin_bottom = 260.0
 
 [node name="EditorMenu" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
 margin_top = 264.0
@@ -166,5 +182,6 @@ margin_top = 540.0
 margin_right = 300.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 0, 60 )
+custom_styles/normal = SubResource( 2 )
 text = "EXPORT"
 [connection signal="pressed" from="VBoxContainer/ExportButton" to="AudioManager" method="_on_ExportButton_pressed"]
