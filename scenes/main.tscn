@@ -249,7 +249,7 @@ margin_top = 31.0
 margin_right = 280.0
 margin_bottom = 97.0
 text = "Export is running at playing speed.
-You can end it prematuraly with the STOP button"
+You can end it prematurely with the STOP button"
 align = 1
 autowrap = true
 

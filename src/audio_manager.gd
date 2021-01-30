@@ -155,10 +155,10 @@ func save_audio()->void:
 	
 	var err = recording.save_to_wav(file_path)
 	if err != OK:
-		OS.alert('Error saving wav file, check Storage permission', 'Error')
+		Global.alert('Error saving wav file, check Storage permission', 'Error')
 	else:
 		var message = 'File saved successfully: ' + file_path
-		Global.alert(message)
+		Global.alert(message, "Export")
 		
 		#OS.alert(message, 'Export')
 	
