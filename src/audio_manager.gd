@@ -16,7 +16,6 @@ var recording:AudioStreamSample
 
 var cursor:float = 0.0
 
-
 func _ready()->void:
 	Global.audio_manager = self
 	print(AudioServer.get_device_list())

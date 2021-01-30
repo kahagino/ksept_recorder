@@ -4,8 +4,11 @@ export var chrono_font:DynamicFont
 
 var center:Vector2 = rect_size / 2
 enum tube_type {IN, OUT}
+const tube_size:float = 40.0
 var cursor_angle:float
 var tape_points:PoolVector2Array
+
+var MAX_CURSOR:float = 10.0 # max k7 ui time in seconds
 
 func _ready():
 	Global.audio_manager.connect("cursor_updated", self, "_on_cursor_updated")
@@ -26,16 +29,16 @@ func _draw():
 	draw_circle(right_full_puller, 3.0, Color.black)
 	
 	_draw_tube(left_tube_pos, cursor_angle, tube_type.IN)
-	_draw_tube(right_tube_pos, cursor_angle, tube_type.OUT)
+	_draw_tube(right_tube_pos, cursor_angle + PI/4, tube_type.OUT)
 	_draw_lecture_head(lecture_head_pos)
 	tape_points = [
-		left_tube_pos + Vector2(-cursor_angle, 0).rotated(-0.02 * cursor_angle),
+		left_tube_pos + Vector2(-get_tape_pos(), 0).rotated(-0.02 * get_tape_pos()),
 		left_full_puller + Vector2(0, 3),
 		left_puller  + Vector2(0, -3),
 		lecture_head_pos + Vector2(0, 3),
 		right_puller + Vector2(0, -3),
 		right_full_puller  + Vector2(0, 3),
-		right_tube_pos + Vector2(40.0 - cursor_angle, 0).rotated(0.02 * (40.0 - cursor_angle))
+		right_tube_pos + Vector2(tube_size - get_tape_pos(), 0).rotated(0.02 * (tube_size - get_tape_pos()))
 	]
 	_draw_tape(tape_points)
 
@@ -43,9 +46,9 @@ func _draw_tube(pos:Vector2, angle:float, tube_type_arg)->void:
 	draw_circle(pos, 5.0, Color.black)
 	draw_arc(pos, 40.0, 0, 2*PI, 32, Color.black, 2.0)
 	if tube_type_arg == tube_type.IN:
-		draw_arc(pos, cursor_angle, 0, 2*PI, 32, Color.black, 1.5)
+		draw_arc(pos, get_tape_pos(), 0, 2*PI, 32, Color.black, 1.5)
 	else:
-		draw_arc(pos, 40.0 - cursor_angle, 0, 2*PI, 32, Color.black, 1.5)
+		draw_arc(pos, tube_size - get_tape_pos(), 0, 2*PI, 32, Color.black, 1.5)
 	
 	var da = 2*PI / 3
 	for i in range(3):
@@ -58,6 +61,14 @@ func _draw_lecture_head(pos:Vector2)->void:
 
 func _draw_tape(points:PoolVector2Array)->void:
 	draw_polyline(points, Color.black, 1.5)
+
+func get_tape_pos()->float:
+	return Global.map(
+		sin(1/MAX_CURSOR * cursor_angle + PI/2),
+		-1,
+		1,
+		0,
+		tube_size)
 
 func _on_cursor_updated()->void:
 	$Label.text = _get_chrono_text()
