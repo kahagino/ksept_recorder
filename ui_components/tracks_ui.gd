@@ -10,6 +10,7 @@ const v_separation:float = 5.0
 func _ready()->void:
 	Global.audio_manager.connect("tracks_updated", self, "_on_tracks_updated")
 	Global.audio_manager.connect("cursor_updated", self, "_on_cursor_updated")
+	Global.audio_manager.connect("export_state_changed", self, "_on_export_state_changed")
 
 func _draw()->void:
 	_draw_focused_track(Global.get_focused_track_index())
@@ -38,6 +39,15 @@ func _on_cursor_updated()->void:
 	var cursor_pos:float = Global.get_cursor_pos()
 	_adapt_view_to_cursor(cursor_pos)
 	update()
+
+func _on_export_state_changed()->void:
+	if Global.audio_manager.is_exporting:
+		$TutoScreen.hide()
+		$TutoBlurMask.show()
+		$TutoExport.show()
+	else:
+		$TutoBlurMask.hide()
+		$TutoExport.hide()
 
 func get_time_to_pos_scale()->float:
 	return rect_size.x / 60.0

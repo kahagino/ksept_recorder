@@ -252,6 +252,20 @@ custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 7 )
 action_mode = 0
 
+[node name="TutoExport" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI"]
+visible = false
+margin_right = 280.0
+margin_bottom = 128.0
+
+[node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoExport"]
+margin_top = 31.0
+margin_right = 280.0
+margin_bottom = 97.0
+text = "Export is running at playing speed.
+You can end it prematuraly with the STOP button"
+align = 1
+autowrap = true
+
 [node name="EditorMenu" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
 margin_top = 264.0
 margin_right = 280.0
