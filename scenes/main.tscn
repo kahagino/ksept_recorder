@@ -7,7 +7,7 @@
 [ext_resource path="res://ui_components/tracks_ui.gd" type="Script" id=5]
 [ext_resource path="res://ui_components/K7Panel.gd" type="Script" id=7]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 4
 corner_radius_top_right = 4
@@ -102,7 +102,7 @@ script = ExtResource( 7 )
 show_behind_parent = true
 margin_right = 280.0
 margin_bottom = 128.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
 margin_left = 109.0
@@ -113,12 +113,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "00:00:00"
 
-[node name="AnimationTimer" type="Timer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
-wait_time = 0.4
-
-[node name="Line2D" type="Line2D" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
-points = PoolVector2Array( 0, 0 )
-
 [node name="TracksUI" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
 margin_top = 132.0
 margin_right = 280.0
@@ -126,12 +120,6 @@ margin_bottom = 260.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
-visible = false
-margin_top = 256.0
-margin_right = 280.0
-margin_bottom = 260.0
 
 [node name="EditorMenu" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
 margin_top = 264.0
@@ -143,46 +131,46 @@ size_flags_vertical = 3
 margin_right = 280.0
 margin_bottom = 188.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer"]
+[node name="TrackButtons" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer"]
 margin_right = 280.0
-margin_bottom = 64.0
+margin_bottom = 61.0
 size_flags_vertical = 3
 
-[node name="DeleteButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
-margin_bottom = 64.0
-button_text = "delete"
+[node name="DeleteButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/TrackButtons" instance=ExtResource( 3 )]
+margin_bottom = 61.0
+button_text = "-"
 button_type = 4
 
-[node name="AddButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+[node name="AddButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/TrackButtons" instance=ExtResource( 3 )]
 margin_left = 142.0
 margin_right = 280.0
-margin_bottom = 64.0
-button_text = "add"
+margin_bottom = 61.0
+button_text = "+"
 button_type = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer"]
-margin_top = 68.0
+[node name="ActionButtons" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer"]
+margin_top = 65.0
 margin_right = 280.0
 margin_bottom = 188.0
-rect_min_size = Vector2( 0, 120 )
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 
-[node name="PlayPauseButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
+[node name="PlayPauseButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/ActionButtons" instance=ExtResource( 3 )]
 margin_right = 90.0
-margin_bottom = 120.0
+margin_bottom = 123.0
 button_text = "play/pause"
 
-[node name="StopButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
+[node name="StopButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/ActionButtons" instance=ExtResource( 3 )]
 margin_left = 94.0
 margin_right = 185.0
-margin_bottom = 120.0
+margin_bottom = 123.0
 button_text = "stop"
 button_type = 1
 
-[node name="RecordButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
+[node name="RecordButton" parent="VBoxContainer/Editor/VBoxContainer/EditorMenu/VBoxContainer/ActionButtons" instance=ExtResource( 3 )]
 margin_left = 189.0
 margin_right = 280.0
-margin_bottom = 120.0
+margin_bottom = 123.0
 button_text = "rec"
 button_type = 2
 
@@ -193,7 +181,7 @@ margin_bottom = 600.0
 rect_min_size = Vector2( 0, 60 )
 custom_styles/normal = SubResource( 2 )
 text = "EXPORT"
-[connection signal="timeout" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel/AnimationTimer" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" method="_on_AnimationTimer_timeout"]
+[connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" method="_on_K7Panel_resized"]
 [connection signal="gui_input" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_gui_input"]
 [connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_resized"]
 [connection signal="pressed" from="VBoxContainer/ExportButton" to="AudioManager" method="_on_ExportButton_pressed"]

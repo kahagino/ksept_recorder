@@ -3,6 +3,10 @@ extends Node
 signal tracks_updated
 signal cursor_updated
 
+signal record_started
+signal audio_play
+signal audio_pause
+
 const deadzone_x = 1.0
 const deadzone_y = 120.0
 var ready_for_next_focus:bool = true
@@ -78,15 +82,18 @@ func record()->void:
 		$TrackManager.set_current_t_stamp(cursor)
 		effect.set_recording_active(true)
 		play_cursor()
+		emit_signal("record_started")
 		print("recording...")
 
 func play_pause()->void:
 	if !effect.is_recording_active():
 		if !is_playing():
 			play_cursor()
+			emit_signal("audio_play")
 		else:
 			$TrackManager.stop()
 			stop_cursor()
+			emit_signal("audio_pause")
 
 func stop()->void:
 	if effect.is_recording_active():
@@ -98,6 +105,7 @@ func stop()->void:
 	else:
 		reset_cursor()
 	
+	emit_signal("audio_pause")
 	$TrackManager.stop()
 
 func is_playing()->bool:

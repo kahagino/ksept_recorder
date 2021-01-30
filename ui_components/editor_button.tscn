@@ -16,6 +16,7 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="."]
+show_behind_parent = true
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 133.0
