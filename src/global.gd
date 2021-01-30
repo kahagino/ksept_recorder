@@ -1,7 +1,7 @@
 extends Node
 
 var audio_manager = preload("res://src/audio_manager.gd")
-var downloadDirPath = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS) + "/"
+var downloadDirPath = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
 
 enum THEME {BRIGHT, DARK}
 var app_theme = load("res://theme/theme_bright.tres") # by default

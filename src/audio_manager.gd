@@ -138,20 +138,22 @@ func remove_track()->void:
 		emit_signal("tracks_updated")
 
 func save_audio()->void:
-	#var time = OS.get_time()
-	#var time_return = String(time.hour) +"."+String(time.minute)+"."+String(time.second)
-	var file_path = SAVE_PATH + "exported"# + time_return
+	var time = OS.get_time()
+	var time_return = str(time.hour)+"."+str(time.minute)+"."+str(time.second)
+	var file_path = SAVE_PATH + "/ksept/exported_" + time_return
+	
+	var dir = Directory.new()
+	if !dir.dir_exists(SAVE_PATH + "/ksept"):
+		dir.open(SAVE_PATH)
+		dir.make_dir("ksept")
 	
 	var err = recording.save_to_wav(file_path)
 	if err != OK:
 		OS.alert('Error saving wav file, check Storage permission', 'Error')
 	else:
-		var message = 'File saved successfully in ' + file_path
+		var message = 'File saved successfully: ' + file_path
 		OS.alert(message, 'Export')
 	
-	var display_path = [file_path, ProjectSettings.globalize_path(file_path)]
-	var status_text = "Saved WAV file to: %s\n(%s)" % display_path
-	print(status_text)
 	stop()
 
 func _on_export_ready()->void:
