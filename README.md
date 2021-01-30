@@ -1,8 +1,4 @@
-# Ksept recorder
-
-<p>
-<img src="https://github.com/kahagino/ksept_recorder/blob/main/.preview/logo_preview.png" width="64" height="64">
-</p>
+# Ksept recorder <img src="https://github.com/kahagino/ksept_recorder/blob/main/.preview/logo_preview.png" width="64" height="64">
 
 ## Preview
 
