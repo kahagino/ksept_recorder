@@ -27,3 +27,17 @@ func get_focused_track_index()->int:
 
 func map(value:float, istart:float, istop:float, ostart:float, ostop:float):
 	return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
+
+func alert(text: String, title: String='Message') -> void:
+	var dialog = AcceptDialog.new()
+	dialog.dialog_text = text
+	dialog.window_title = title
+	dialog.dialog_autowrap = true
+	dialog.connect('modal_closed', dialog, 'queue_free')
+	var scene_tree = Engine.get_main_loop()
+	scene_tree.current_scene.add_child(dialog)
+	dialog.popup_centered_clamped(
+		Vector2(0.9 * get_viewport().size.x,
+		0.1 * get_viewport().size.y)
+		)
+	
