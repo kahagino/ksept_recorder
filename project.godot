@@ -17,6 +17,8 @@ _global_script_class_icons={
 
 config/name="ksept_recorder"
 run/main_scene="res://scenes/main.tscn"
+boot_splash/image="res://android_icons/foreground_432.png"
+boot_splash/bg_color=Color( 1, 1, 1, 1 )
 config/icon="res://icon.png"
 config/quit_on_go_back=false
 

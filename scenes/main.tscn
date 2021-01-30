@@ -1,11 +1,27 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/main.gd" type="Script" id=1]
 [ext_resource path="res://theme/theme_bright.tres" type="Theme" id=2]
 [ext_resource path="res://ui_components/editor_button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://nodes/AudioManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui_components/tracks_ui.gd" type="Script" id=5]
+[ext_resource path="res://theme/font/VT323-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://ui_components/K7Panel.gd" type="Script" id=7]
+[ext_resource path="res://theme/font/Digit.TTF" type="DynamicFontData" id=8]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.458824, 0.556863, 0.741176, 0.364706 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0, 0, 0, 0.0862745 )
+shadow_size = 12
+
+[sub_resource type="DynamicFont" id=4]
+size = 28
+extra_spacing_char = 10
+font_data = ExtResource( 6 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.976471, 0.976471, 0.988235, 1 )
@@ -16,10 +32,19 @@ corner_radius_bottom_left = 4
 shadow_color = Color( 0, 0, 0, 0.054902 )
 shadow_size = 11
 
+[sub_resource type="DynamicFont" id=5]
+extra_spacing_bottom = 5
+font_data = ExtResource( 8 )
+
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.945098, 0.94902, 0.964706, 1 )
 shadow_color = Color( 0, 0, 0, 0.0745098 )
 shadow_size = 7
+
+[sub_resource type="DynamicFont" id=6]
+size = 22
+extra_spacing_char = 3
+font_data = ExtResource( 6 )
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -50,18 +75,29 @@ __meta__ = {
 margin_right = 300.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 0, 60 )
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="VBoxContainer/MarginContainer"]
-margin_right = 300.0
-margin_bottom = 60.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 290.0
+margin_bottom = 50.0
+custom_styles/panel = SubResource( 3 )
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
-margin_right = 300.0
-margin_bottom = 60.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 290.0
+margin_bottom = 50.0
 size_flags_vertical = 1
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KSEPT"
 align = 1
 valign = 1
@@ -106,11 +142,12 @@ custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
 margin_left = 109.0
-margin_top = 108.0
+margin_top = 107.0
 margin_right = 171.0
 margin_bottom = 128.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
+custom_fonts/font = SubResource( 5 )
 text = "00:00:00"
 
 [node name="TracksUI" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
@@ -180,6 +217,8 @@ margin_right = 300.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 0, 60 )
 custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 0.305882, 0.305882, 0.305882, 1 )
 text = "EXPORT"
 [connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" method="_on_K7Panel_resized"]
 [connection signal="gui_input" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_gui_input"]
