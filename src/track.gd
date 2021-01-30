@@ -19,6 +19,7 @@ var track_colors:Array = [
 var color:Color
 
 func _ready()->void:
+	randomize()
 	color = track_colors[int(rand_range(0, track_colors.size()))]
 	$AudioStreamPlayer.connect("finished", self, "_on_AudioStream_finished")
 

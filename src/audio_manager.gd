@@ -3,6 +3,10 @@ extends Node
 signal tracks_updated
 signal cursor_updated
 
+const deadzone_x = 1.0
+const deadzone_y = 120.0
+var ready_for_next_focus:bool = true
+
 var SAVE_PATH = Global.downloadDirPath
 
 var track_manager:Node
@@ -11,6 +15,7 @@ var effect:AudioEffect
 var recording:AudioStreamSample
 
 var cursor:float = 0.0
+
 
 func _ready()->void:
 	Global.audio_manager = self
@@ -24,20 +29,47 @@ func _ready()->void:
 	
 
 func _input(event)->void:
+	# debug inputs
 	if event.is_action_pressed("ui_left"):
-		cursor += 1.0
-		emit_signal("cursor_updated")
+		if !is_playing():
+			cursor += 1.0
+			emit_signal("cursor_updated")
 	elif event.is_action_pressed("ui_right"):
-		cursor -= 1.0
-		if cursor < 0.0:
-			reset_cursor()
-		emit_signal("cursor_updated")
+		if !is_playing():
+			cursor -= 1.0
+			if cursor < 0.0:
+				reset_cursor()
+			emit_signal("cursor_updated")
 	elif event.is_action_pressed("ui_up"):
 		track_manager.focus_next()
 		emit_signal("tracks_updated")
 	elif event.is_action_pressed("ui_down"):
 		track_manager.focus_previous()
 		emit_signal("tracks_updated")
+
+func move_cursor_from_gesture(relative_move:Vector2, speed:Vector2)->void:
+	if !is_playing():
+		if abs(relative_move.x) > deadzone_x:
+			cursor = lerp(cursor, cursor -relative_move.x, 0.06)
+			if cursor < 0.0:
+				reset_cursor()
+			emit_signal("cursor_updated")
+
+func move_focused_track_from_gesture(speed:Vector2)->void:
+	if !is_playing() && ready_for_next_focus:
+		if abs(speed.y) > deadzone_y:
+			if sign(speed.y) > 0:
+				track_manager.focus_previous()
+				emit_signal("tracks_updated")
+			else:
+				track_manager.focus_next()
+				emit_signal("tracks_updated")
+			
+			ready_for_next_focus = false
+
+func check_released_for_next_focus(is_touch_pressed:bool)->void:
+	if !is_touch_pressed && !ready_for_next_focus:
+		ready_for_next_focus = true
 
 func record()->void:
 	if effect.is_recording_active():

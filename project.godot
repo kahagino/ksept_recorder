@@ -30,7 +30,7 @@ Global="*res://src/global.gd"
 
 [debug]
 
-settings/fps/force_fps=15
+settings/fps/force_fps=24
 
 [display]
 

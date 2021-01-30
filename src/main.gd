@@ -3,7 +3,7 @@ extends Control
 func _ready()->void:
 	load_app_theme()
 	
-	OS.request_permissions() # for READ/WRITE to external storage
+	var err = OS.request_permissions() # for READ/WRITE to external storage
 #	OS.alert("OS.request_permissions() returned " + str(err))
 	
 	# DEBUG ANDROID
@@ -17,7 +17,3 @@ func _ready()->void:
 
 func load_app_theme()->void:
 	theme = Global.app_theme
-
-func _input(event)->void:
-	if event.is_action_pressed("ui_accept"):
-		Global.select_theme(Global.THEME.DARK)
