@@ -2,8 +2,8 @@ extends Node
 
 signal tracks_updated
 signal cursor_updated
-
 signal record_started
+signal export_state_changed
 signal audio_play
 signal audio_pause
 
@@ -19,6 +19,8 @@ var effect:AudioEffect
 var recording:AudioStreamSample
 
 var cursor:float = 0.0
+
+var is_exporting:bool = false
 
 func _ready()->void:
 	Global.audio_manager = self
@@ -97,15 +99,17 @@ func play_pause()->void:
 
 func stop()->void:
 	if effect.is_recording_active():
-		recording = effect.get_recording()
-		effect.set_recording_active(false)
-		print("stopped recording")
-		$TrackManager.add_stream_to_track(recording)
-		play_pause()
+		if !is_exporting:
+			recording = effect.get_recording()
+			effect.set_recording_active(false)
+			print("stopped recording")
+			$TrackManager.add_stream_to_track(recording)
+			play_pause()
+			emit_signal("audio_pause")
 	else:
 		reset_cursor()
-	
-	emit_signal("audio_pause")
+		emit_signal("audio_pause")
+		
 	$TrackManager.stop()
 
 func is_playing()->bool:
@@ -155,6 +159,8 @@ func save_audio()->void:
 		OS.alert(message, 'Export')
 	
 	stop()
+	is_exporting = false
+	emit_signal("export_state_changed", is_exporting)
 
 func _on_export_ready()->void:
 	print("export ready to be saved")
@@ -163,14 +169,16 @@ func _on_export_ready()->void:
 	save_audio()
 
 func _on_ExportButton_pressed()->void:
-	stop()
-	stop() # call to times to ensure cursor is reset to beggining
-	$TrackManager.prepare_export()
-	play_pause()
-	if !effect.is_recording_active():
-		effect.set_recording_active(true)
-	else:
-		OS.alert("Stop record before export", "Alert")
+	if !is_exporting:
+		if !is_playing():
+			stop()
+			stop() # call two times to ensure cursor is reset to beggining
+			$TrackManager.prepare_export()
+			play_pause()
+			if !effect.is_recording_active():
+				effect.set_recording_active(true)
+				is_exporting = true
+				emit_signal("export_state_changed", is_exporting)
 
 func _on_CursorTimer_timeout()->void:
 	cursor += $CursorTimer.wait_time

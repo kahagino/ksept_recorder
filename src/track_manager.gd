@@ -82,6 +82,7 @@ func prepare_export()->void:
 		track.set_bus("Export")
 	print("moved each track to bus Export")
 	print("exporting...")
+	
 
 func _end_export()->void:
 	for track in tracks:
@@ -93,14 +94,14 @@ func _on_track_finished()->void:
 	match mode:
 		MODE.EXPORT:
 			exportedNumber += 1
-			_check_export_ready()
+			_check_export_finished()
 		MODE.EDIT:
 			# TODO: go back to begging ?
 			pass
 		_:
 			print("TrackManager MODE: ", mode, " doesn't match any known MODE")
 
-func _check_export_ready()->void:
+func _check_export_finished()->void:
 	if exportedNumber >= _get_number_of_defined_tracks():
 		_end_export()
 		emit_signal("export_ready") # merged streams ready to be saved
