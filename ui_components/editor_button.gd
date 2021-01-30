@@ -12,6 +12,11 @@ func _ready()->void:
 	center = rect_size/2
 	Global.audio_manager.connect("audio_play", self, "update")
 	Global.audio_manager.connect("audio_pause", self, "update")
+	connect("resized", self, "_on_resized")
+
+func _on_resized():
+	center = rect_size/2
+	update()
 
 func _draw():
 	match button_type:

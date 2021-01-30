@@ -8,7 +8,7 @@
 [ext_resource path="res://ui_components/K7Panel.gd" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 1, 1, 1 )
+bg_color = Color( 0.976471, 0.976471, 0.988235, 1 )
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -17,7 +17,7 @@ shadow_color = Color( 0, 0, 0, 0.054902 )
 shadow_size = 11
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 1, 1, 1 )
+bg_color = Color( 0.945098, 0.94902, 0.964706, 1 )
 shadow_color = Color( 0, 0, 0, 0.0745098 )
 shadow_size = 7
 
