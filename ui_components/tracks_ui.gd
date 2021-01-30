@@ -11,9 +11,6 @@ func _ready()->void:
 	Global.audio_manager.connect("tracks_updated", self, "_on_tracks_updated")
 	Global.audio_manager.connect("cursor_updated", self, "_on_cursor_updated")
 
-func _input(event):
-	pass
-
 func _draw()->void:
 	_draw_focused_track(Global.get_focused_track_index())
 	
@@ -147,7 +144,7 @@ func _on_TracksUI_resized():
 
 func _on_TracksUI_gui_input(event):
 	if event is InputEventScreenDrag:
-		Global.audio_manager.move_cursor_from_gesture(event.relative, event.speed)
+		Global.audio_manager.move_cursor_from_gesture(event.relative)
 		Global.audio_manager.move_focused_track_from_gesture(event.speed)
 	if event is InputEventScreenTouch:
 		Global.audio_manager.check_released_for_next_focus(event.pressed)

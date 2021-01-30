@@ -47,7 +47,7 @@ func _input(event)->void:
 		track_manager.focus_previous()
 		emit_signal("tracks_updated")
 
-func move_cursor_from_gesture(relative_move:Vector2, speed:Vector2)->void:
+func move_cursor_from_gesture(relative_move:Vector2)->void:
 	if !is_playing():
 		if abs(relative_move.x) > deadzone_x:
 			cursor = lerp(cursor, cursor -relative_move.x, 0.06)

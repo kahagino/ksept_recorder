@@ -7,16 +7,18 @@
 [ext_resource path="res://ui_components/tracks_ui.gd" type="Script" id=5]
 [ext_resource path="res://ui_components/K7Panel.gd" type="Script" id=7]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.0627451, 0.0627451, 0.0627451, 1 )
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+shadow_color = Color( 0, 0, 0, 0.054902 )
+shadow_size = 11
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 1, 1, 1, 1 )
-shadow_color = Color( 0, 0, 0, 0.192157 )
+shadow_color = Color( 0, 0, 0, 0.0745098 )
 shadow_size = 7
 
 [node name="main" type="Control"]
@@ -97,9 +99,10 @@ size_flags_vertical = 3
 script = ExtResource( 7 )
 
 [node name="Panel" type="Panel" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
+show_behind_parent = true
 margin_right = 280.0
 margin_bottom = 128.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 3 )
 
 [node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
 margin_left = 109.0
@@ -108,8 +111,13 @@ margin_right = 171.0
 margin_bottom = 128.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "00:00:00"
+
+[node name="AnimationTimer" type="Timer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
+wait_time = 0.4
+
+[node name="Line2D" type="Line2D" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel"]
+points = PoolVector2Array( 0, 0 )
 
 [node name="TracksUI" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer"]
 margin_top = 132.0
@@ -185,6 +193,7 @@ margin_bottom = 600.0
 rect_min_size = Vector2( 0, 60 )
 custom_styles/normal = SubResource( 2 )
 text = "EXPORT"
+[connection signal="timeout" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel/AnimationTimer" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" method="_on_AnimationTimer_timeout"]
 [connection signal="gui_input" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_gui_input"]
 [connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_resized"]
 [connection signal="pressed" from="VBoxContainer/ExportButton" to="AudioManager" method="_on_ExportButton_pressed"]
