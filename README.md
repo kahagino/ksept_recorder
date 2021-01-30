@@ -1,1 +1,1 @@
-![ksept logo preview](.preview/logo_preview.png){ width=25% }
+![ksept logo preview](.preview/logo_preview.png =64x64)
