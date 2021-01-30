@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/main.gd" type="Script" id=1]
 [ext_resource path="res://theme/theme_bright.tres" type="Theme" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://theme/font/VT323-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://ui_components/K7Panel.gd" type="Script" id=7]
 [ext_resource path="res://theme/font/Digit.TTF" type="DynamicFontData" id=8]
+[ext_resource path="res://theme/icons/pan_left_right.png" type="Texture" id=9]
+[ext_resource path="res://theme/icons/swipe.png" type="Texture" id=10]
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.458824, 0.556863, 0.741176, 0.364706 )
@@ -35,6 +37,8 @@ shadow_size = 11
 [sub_resource type="DynamicFont" id=5]
 extra_spacing_bottom = 5
 font_data = ExtResource( 8 )
+
+[sub_resource type="StyleBoxEmpty" id=7]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.945098, 0.94902, 0.964706, 1 )
@@ -158,6 +162,96 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
 
+[node name="TutoBlurMask" type="ColorRect" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI"]
+margin_right = 280.0
+margin_bottom = 128.0
+color = Color( 1, 1, 1, 0.741176 )
+
+[node name="TutoScreen" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI"]
+margin_right = 280.0
+margin_bottom = 128.0
+mouse_filter = 1
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 260.0
+margin_bottom = 108.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer"]
+margin_right = 116.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer/VBoxContainer"]
+margin_right = 116.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer/VBoxContainer"]
+margin_top = 45.0
+margin_right = 116.0
+margin_bottom = 88.0
+size_flags_vertical = 6
+text = "Cursor
+control"
+align = 1
+valign = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer"]
+margin_left = 120.0
+margin_right = 236.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer/VBoxContainer2"]
+margin_right = 116.0
+margin_bottom = 41.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer/VBoxContainer2"]
+margin_top = 45.0
+margin_right = 116.0
+margin_bottom = 88.0
+size_flags_vertical = 6
+text = "Tracks
+control"
+align = 1
+valign = 1
+
+[node name="Spacer" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/HBoxContainer"]
+margin_left = 240.0
+margin_right = 240.0
+margin_bottom = 88.0
+size_flags_horizontal = 0
+
+[node name="FlatTutoButton" type="Button" parent="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 260.0
+margin_bottom = 108.0
+mouse_filter = 1
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 7 )
+action_mode = 0
+
 [node name="EditorMenu" type="MarginContainer" parent="VBoxContainer/Editor/VBoxContainer"]
 margin_top = 264.0
 margin_right = 280.0
@@ -223,4 +317,5 @@ text = "EXPORT"
 [connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/K7Panel" method="_on_K7Panel_resized"]
 [connection signal="gui_input" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_gui_input"]
 [connection signal="resized" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_TracksUI_resized"]
+[connection signal="pressed" from="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI/TutoScreen/FlatTutoButton" to="VBoxContainer/Editor/VBoxContainer/TracksEditor/VBoxContainer/TracksUI" method="_on_FlatTutoButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExportButton" to="AudioManager" method="_on_ExportButton_pressed"]

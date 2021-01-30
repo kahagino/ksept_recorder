@@ -148,3 +148,8 @@ func _on_TracksUI_gui_input(event):
 		Global.audio_manager.move_focused_track_from_gesture(event.speed)
 	if event is InputEventScreenTouch:
 		Global.audio_manager.check_released_for_next_focus(event.pressed)
+
+
+func _on_FlatTutoButton_pressed():
+	$TutoScreen.hide()
+	$TutoBlurMask.hide()
