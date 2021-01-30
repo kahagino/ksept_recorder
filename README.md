@@ -1,1 +1,1 @@
-![ksept logo preview](.preview/logo_preview.png =64x64)
+<img src="https://github.com/kahagino/ksept_recorder/blob/main/.preview/logo_preview.png" width="64" height="64">
