@@ -10,7 +10,7 @@ var tape_points:PoolVector2Array
 
 var MAX_CURSOR:float = 10.0 # max k7 ui time in seconds
 
-enum UI_AUDIO_STATES {RECORD, PLAY, PAUSE}
+enum UI_AUDIO_STATES {RECORD, PLAY, PAUSE, EXPORT}
 var ui_audio_state = UI_AUDIO_STATES.PAUSE
 
 func _ready():
@@ -18,6 +18,7 @@ func _ready():
 	Global.audio_manager.connect("record_started", self, "_on_record_started")
 	Global.audio_manager.connect("audio_play", self, "_on_audio_play")
 	Global.audio_manager.connect("audio_pause", self, "_on_audio_pause")
+	Global.audio_manager.connect("export_state_changed", self, "_on_export_state_changed")
 
 func _draw():
 	var left_tube_pos = center + Vector2(-65, -10)
@@ -82,6 +83,8 @@ func _draw_state_shape(state, pos:Vector2)->void:
 			_draw_play(pos)
 		UI_AUDIO_STATES.PAUSE:
 			_draw_pause(pos)
+		UI_AUDIO_STATES.EXPORT:
+			_draw_export(pos)
 
 func _draw_pause(pos_center:Vector2)->void:
 	draw_line(pos_center + Vector2(-6, -10), pos_center + Vector2(-6, 10), Color(0, 0, 0, 0.7), 10.0)
@@ -89,6 +92,10 @@ func _draw_pause(pos_center:Vector2)->void:
 
 func _draw_record(pos_center:Vector2)->FuncRef:
 	return draw_circle(pos_center, 11, Color(1, 0, 0, 0.7))
+
+func _draw_export(pos_center:Vector2)->FuncRef:
+	var alpha = Global.map(sin(4*Global.get_cursor_pos()), -1, 1, 0.2, 0.7)
+	return draw_circle(pos_center, 11, Color(1, 0, 0, alpha))
 
 func _draw_play(pos_center:Vector2)->FuncRef:
 	return draw_polygon([
@@ -120,6 +127,9 @@ func _on_audio_play():
 func _on_audio_pause():
 	ui_audio_state = UI_AUDIO_STATES.PAUSE
 
+func _on_export_state_changed()->void:
+	ui_audio_state = UI_AUDIO_STATES.EXPORT
+
 func _get_chrono_text()->String:
 	var cursor_pos:float = Global.get_cursor_pos()
 	var mins:int = int(cursor_pos / 60.0)
@@ -129,7 +139,6 @@ func _get_chrono_text()->String:
 	var secs_str = "%02d" % secs
 	var millis_str = "%0-2d" % millis
 	return mins_str + ":" + secs_str + ":" + millis_str
-
 
 func _on_K7Panel_resized():
 	center = rect_size / 2

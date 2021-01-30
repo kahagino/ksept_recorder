@@ -106,6 +106,8 @@ func stop()->void:
 			$TrackManager.add_stream_to_track(recording)
 			play_pause()
 			emit_signal("audio_pause")
+		else:
+			$TrackManager.end_export()
 	else:
 		reset_cursor()
 		emit_signal("audio_pause")
@@ -160,7 +162,7 @@ func save_audio()->void:
 	
 	stop()
 	is_exporting = false
-	emit_signal("export_state_changed", is_exporting)
+	emit_signal("export_state_changed")
 
 func _on_export_ready()->void:
 	print("export ready to be saved")
@@ -178,7 +180,7 @@ func _on_ExportButton_pressed()->void:
 			if !effect.is_recording_active():
 				effect.set_recording_active(true)
 				is_exporting = true
-				emit_signal("export_state_changed", is_exporting)
+				emit_signal("export_state_changed")
 
 func _on_CursorTimer_timeout()->void:
 	cursor += $CursorTimer.wait_time

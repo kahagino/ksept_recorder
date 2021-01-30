@@ -84,11 +84,12 @@ func prepare_export()->void:
 	print("exporting...")
 	
 
-func _end_export()->void:
+func end_export()->void:
 	for track in tracks:
 		track.set_bus("Master")
 	print("moved each track to bus Master")
 	mode = MODE.EDIT
+	emit_signal("export_ready")
 
 func _on_track_finished()->void:
 	match mode:
@@ -103,8 +104,7 @@ func _on_track_finished()->void:
 
 func _check_export_finished()->void:
 	if exportedNumber >= _get_number_of_defined_tracks():
-		_end_export()
-		emit_signal("export_ready") # merged streams ready to be saved
+		end_export()
 
 func _get_number_of_defined_tracks()->int:
 	var counter = 0
