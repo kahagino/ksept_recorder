@@ -18,9 +18,7 @@ processing time).
 OR use headphones 🎧 with an integrated mic and you'll do just fine.**
 
 ## 👨‍⚖️ License
-<img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-nd.png" width="100">
-
-*Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)*
+MIT license
 
 ### Godot
 This app uses Godot engine.
